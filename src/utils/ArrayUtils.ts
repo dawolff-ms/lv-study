@@ -1,0 +1,14 @@
+/**
+ * Randomly shuffles the elements of an array using the Durstenfield shuffle algorithm.
+ * @param array array to shuffle.
+ * @returns a pointer to the same array.
+ */
+export function shuffle<T>(array: T[]) {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
