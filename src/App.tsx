@@ -1,14 +1,11 @@
-import { useState } from 'react'
+import { Body1, Button, FluentProvider, webLightTheme } from '@fluentui/react-components';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  
   return (
-    <>
-      {count}
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </>
+    <FluentProvider theme={webLightTheme}>
+      <Button appearance='primary'>Button</Button>
+      <Body1>The site is working!</Body1>
+    </FluentProvider>
   )
 }
-
-export default App
