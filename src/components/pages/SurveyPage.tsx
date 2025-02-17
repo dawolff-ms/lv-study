@@ -1,9 +1,12 @@
 import {
+  FluentProvider,
   Link,
   Skeleton,
   SkeletonItem,
   Title3,
   makeStyles,
+  webDarkTheme,
+  webLightTheme,
 } from "@fluentui/react-components";
 
 import { AppRoutes } from "../../constants/AppRoutes";
@@ -13,6 +16,9 @@ import SurveyContext from "../../contexts/SurveyContext";
 import { useNavigate } from "react-router";
 
 const useStyles = makeStyles({
+  background: {
+    transition: "background-color 0.5s ease-in",
+  },
   container: {
     width: "100vw",
     height: "100vh",
@@ -28,15 +34,15 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { image, acknowledge, start, reset, status } =
+  const { test, acknowledge, start, reset, status } =
     React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
   const onClick = React.useCallback(() => {
     if (status === "idle") start();
-    else if (status === "in-progress") acknowledge(image);
-  }, [start, acknowledge, image, status]);
+    else if (status === "in-progress") acknowledge(test);
+  }, [start, acknowledge, test, status]);
 
   const onExit = React.useCallback(() => {
     navigate(AppRoutes.LANDING);
@@ -61,42 +67,47 @@ export default function SurveyPage() {
   );
 
   return (
-    <Flex
-      className={styles.container}
-      justifyContent="center"
-      alignItems="center"
-      onClick={onClick}
-      onKeyDown={onKeyDown}
-      tabIndex={0}
-      role="presentation"
+    <FluentProvider
+      theme={test.image.mode === "light" ? webLightTheme : webDarkTheme}
+      className={styles.background}
     >
-      {status === "loading" && (
-        <Skeleton aria-label="loading">
-          <SkeletonItem shape="rectangle" size={24} />
-          <SkeletonItem shape="rectangle" size={24} />
-          <SkeletonItem shape="rectangle" size={24} />
-        </Skeleton>
-      )}
-      {status === "idle" && (
-        <>
-          <Title3 as="h1">Click anywhere to begin</Title3>
-        </>
-      )}
-      {status === "in-progress" && (
-        <img
-          className={styles.image}
-          style={{ display: image.hidden ? "none" : "unset" }}
-          src={image.source}
-        />
-      )}
-      {status === "completed" && (
-        <>
-          <Title3 as="h1">
-            Survey is complete, thank you for participating!
-          </Title3>
-          <Link onClick={onExit}>Home</Link>
-        </>
-      )}
-    </Flex>
+      <Flex
+        className={styles.container}
+        justifyContent="center"
+        alignItems="center"
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
+        role="presentation"
+      >
+        {status === "loading" && (
+          <Skeleton aria-label="loading">
+            <SkeletonItem shape="rectangle" size={24} />
+            <SkeletonItem shape="rectangle" size={24} />
+            <SkeletonItem shape="rectangle" size={24} />
+          </Skeleton>
+        )}
+        {status === "idle" && (
+          <>
+            <Title3 as="h1">Click anywhere to begin</Title3>
+          </>
+        )}
+        {status === "in-progress" && (
+          <img
+            className={styles.image}
+            style={{ display: test.hidden ? "none" : "unset" }}
+            src={test.image.source}
+          />
+        )}
+        {status === "completed" && (
+          <>
+            <Title3 as="h1">
+              Survey is complete, thank you for participating!
+            </Title3>
+            <Link onClick={onExit}>Home</Link>
+          </>
+        )}
+      </Flex>
+    </FluentProvider>
   );
 }
