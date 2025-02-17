@@ -6,12 +6,15 @@ import SurveyController, {
 } from "../controllers/SurveyController";
 
 export type SurveyContext = {
-  isLoading: boolean;
-  isCompleted: boolean;
+  status: SurveyStatus;
   acknowledge: (image: ImageState) => void;
+  start: () => void;
+  reset: () => void;
   image: ImageState;
   error?: Error;
 };
+
+type SurveyStatus = "loading" | "completed" | "idle" | "in-progress";
 
 const SurveyContext = React.createContext<SurveyContext>({} as SurveyContext);
 
@@ -22,8 +25,7 @@ export function SurveyProvider(
 ): JSX.Element {
   const { controller, children } = props;
 
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isCompleted, setIsCompleted] = React.useState(false);
+  const [status, setStatus] = React.useState<SurveyStatus>("loading");
   const [error, setError] = React.useState<Error | null>(null);
 
   const [image, setImage] = React.useState<ImageState>(
@@ -31,16 +33,20 @@ export function SurveyProvider(
   );
 
   React.useEffect(() => {
-    controller.initialization
-      .catch(setError)
-      .finally(() => setIsLoading(false));
+    controller.initialization.catch(setError).finally(() => setStatus("idle"));
   }, [controller]);
 
   React.useEffect(() => {
     const listener = (event: SurveyControllerEvent) => {
       switch (event.type) {
+        case "survey-started":
+          setStatus("in-progress");
+          break;
+        case "survey-reset":
+          setStatus("idle");
+          break;
         case "survey-completed":
-          setIsCompleted(true);
+          setStatus("completed");
           break;
         case "image-state-update":
           setImage(event.image);
@@ -58,9 +64,10 @@ export function SurveyProvider(
     <SurveyContext.Provider
       value={
         {
-          isLoading,
-          isCompleted,
+          status,
           acknowledge: controller.acknowledge,
+          start: controller.start,
+          reset: controller.reset,
           image,
           error,
         } as SurveyContext
