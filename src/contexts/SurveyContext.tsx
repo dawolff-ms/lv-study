@@ -1,16 +1,16 @@
 import * as React from "react";
 
 import SurveyController, {
-  ImageState,
   SurveyControllerEvent,
+  TestState,
 } from "../controllers/SurveyController";
 
 export type SurveyContext = {
   status: SurveyStatus;
-  acknowledge: (image: ImageState) => void;
+  acknowledge: (test: TestState) => void;
   start: () => void;
   reset: () => void;
-  image: ImageState;
+  test: TestState;
   error?: Error;
 };
 
@@ -28,8 +28,11 @@ export function SurveyProvider(
   const [status, setStatus] = React.useState<SurveyStatus>("loading");
   const [error, setError] = React.useState<Error | null>(null);
 
-  const [image, setImage] = React.useState<ImageState>(
-    controller.getCurrentImage() ?? { hidden: true, source: "" }
+  const [test, setTest] = React.useState<TestState>(
+    controller.getCurrentTest() ?? {
+      image: { source: "", mode: "light" },
+      hidden: true,
+    }
   );
 
   React.useEffect(() => {
@@ -48,8 +51,8 @@ export function SurveyProvider(
         case "survey-completed":
           setStatus("completed");
           break;
-        case "image-state-update":
-          setImage(event.image);
+        case "test-state-update":
+          setTest(event.test);
           break;
       }
     };
@@ -68,7 +71,7 @@ export function SurveyProvider(
           acknowledge: controller.acknowledge,
           start: controller.start,
           reset: controller.reset,
-          image,
+          test,
           error,
         } as SurveyContext
       }

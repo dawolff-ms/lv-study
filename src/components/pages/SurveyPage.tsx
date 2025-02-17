@@ -28,15 +28,15 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { image, acknowledge, start, reset, status } =
+  const { test, acknowledge, start, reset, status } =
     React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
   const onClick = React.useCallback(() => {
     if (status === "idle") start();
-    else if (status === "in-progress") acknowledge(image);
-  }, [start, acknowledge, image, status]);
+    else if (status === "in-progress") acknowledge(test);
+  }, [start, acknowledge, test, status]);
 
   const onExit = React.useCallback(() => {
     navigate(AppRoutes.LANDING);
@@ -85,8 +85,8 @@ export default function SurveyPage() {
       {status === "in-progress" && (
         <img
           className={styles.image}
-          style={{ display: image.hidden ? "none" : "unset" }}
-          src={image.source}
+          style={{ display: test.hidden ? "none" : "unset" }}
+          src={test.image.source}
         />
       )}
       {status === "completed" && (

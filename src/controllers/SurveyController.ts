@@ -1,19 +1,17 @@
-import ImageProvider from "../data-provider/ImageProvider";
+import ImageProvider, { ImageState } from "../data-provider/ImageProvider";
+
 import Listenable from "../utils/Listenable";
 import { shuffle } from "../utils/ArrayUtils";
 
-export type ImageState = {
-  source: string;
+export type TestState = {
+  image: ImageState;
   hidden: boolean;
-};
-
-type InternalImageState = ImageState & {
   start?: number;
   delay?: number;
 };
 
 export type SurveyControllerEvent =
-  | { type: "image-state-update"; image: ImageState }
+  | { type: "test-state-update"; test: TestState }
   | { type: "survey-started" }
   | { type: "survey-completed" }
   | { type: "survey-reset" };
@@ -21,7 +19,7 @@ export type SurveyControllerEvent =
 export default class SurveyController extends Listenable<SurveyControllerEvent> {
   private imageProvider: ImageProvider;
 
-  private images: InternalImageState[] = [];
+  private tests: TestState[] = [];
   private currentIndex = -1;
 
   private _initialization: Promise<void>;
@@ -34,7 +32,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.imageProvider = imageProvider;
 
     this.initialize = this.initialize.bind(this);
-    this.getCurrentImage = this.getCurrentImage.bind(this);
+    this.getCurrentTest = this.getCurrentTest.bind(this);
     this.start = this.start.bind(this);
     this.acknowledge = this.acknowledge.bind(this);
     this.skip = this.skip.bind(this);
@@ -46,8 +44,8 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
 
   private async initialize(): Promise<void> {
     try {
-      const sources = await this.imageProvider.getImageList().then(shuffle);
-      this.images = sources.map((source) => ({ source, hidden: true }));
+      const images = await this.imageProvider.getImageList().then(shuffle);
+      this.tests = images.map((image) => ({ image, hidden: true }));
     } catch (error) {
       console.error(
         "Something went wrong while initializing the SurveyController",
@@ -57,8 +55,8 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     }
   }
 
-  public getCurrentImage(): ImageState {
-    return this.images[this.currentIndex];
+  public getCurrentTest(): TestState {
+    return this.tests[this.currentIndex];
   }
 
   public start(): void {
@@ -67,50 +65,58 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.queueNextImage();
   }
 
-  public acknowledge(image: ImageState): void {
-    const currentImage = this.images[this.currentIndex];
-    if (image.source !== currentImage.source) return;
-    if (currentImage.start == null) return;
+  public acknowledge(test: TestState): void {
+    const currentTest = this.tests[this.currentIndex];
+    if (test.image.source !== currentTest.image.source) return;
+    if (currentTest.start == null) return;
 
     const now = performance.now();
-    const duration = now - currentImage.start;
+    const duration = now - currentTest.start;
 
-    console.log(`Acknowledged image ${currentImage.source} in ${duration}ms`);
+    console.log(
+      `Acknowledged image ${currentTest.image.source} in ${duration}ms`
+    );
     this.queueNextImage();
   }
 
   public skip(): void {
-    console.log(`Skipped image ${this.images[this.currentIndex].source}`);
+    console.log(`Skipped image ${this.tests[this.currentIndex].image.source}`);
     this.queueNextImage();
   }
 
   public reset(): void {
     console.log("Resetting survey");
     this.currentIndex = -1;
-    this.images.forEach((image) => {
-      image.hidden = true;
-      image.start = undefined;
-      image.delay = undefined;
+    this.tests.forEach((test) => {
+      test.hidden = true;
+      test.start = undefined;
+      test.delay = undefined;
     });
     this.updateListeners({ type: "survey-reset" });
   }
 
   private queueNextImage(): void {
     this.currentIndex++;
-    if (this.currentIndex >= this.images.length) {
+    if (this.currentIndex >= this.tests.length) {
       this.updateListeners({ type: "survey-completed" });
       return;
     }
 
-    const image = this.images[this.currentIndex];
-    image.hidden = true;
-    this.updateListeners({ type: "image-state-update", image: { ...image } });
+    const test = this.tests[this.currentIndex];
+    test.hidden = true;
+    this.updateListeners({
+      type: "test-state-update",
+      test: { ...test },
+    });
 
-    image.delay = Math.floor(Math.random() * 5000) + 1000;
+    test.delay = Math.floor(Math.random() * 5000) + 1000;
     setTimeout(() => {
-      image.hidden = false;
-      image.start = performance.now();
-      this.updateListeners({ type: "image-state-update", image: { ...image } });
-    }, image.delay);
+      test.hidden = false;
+      test.start = performance.now();
+      this.updateListeners({
+        type: "test-state-update",
+        test: { ...test },
+      });
+    }, test.delay);
   }
 }
