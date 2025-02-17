@@ -1,8 +1,15 @@
+import {
+  Link,
+  Skeleton,
+  SkeletonItem,
+  Title3,
+  makeStyles,
+} from "@fluentui/react-components";
+
 import { AppRoutes } from "../../constants/AppRoutes";
 import Flex from "../common/Flex";
 import React from "react";
 import SurveyContext from "../../contexts/SurveyContext";
-import { makeStyles } from "@fluentui/react-components";
 import { useNavigate } from "react-router";
 
 const useStyles = makeStyles({
@@ -21,26 +28,36 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { image, acknowledge } = React.useContext(SurveyContext);
+  const { image, acknowledge, start, reset, status } =
+    React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
-  const onClick = React.useCallback(
-    () => acknowledge(image),
-    [acknowledge, image]
-  );
+  const onClick = React.useCallback(() => {
+    if (status === "idle") start();
+    else if (status === "in-progress") acknowledge(image);
+  }, [start, acknowledge, image, status]);
+
+  const onExit = React.useCallback(() => {
+    navigate(AppRoutes.LANDING);
+    reset();
+  }, [reset, navigate]);
 
   const onKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "Enter" || event.key === " ") {
-        acknowledge(image);
+        onClick();
       }
       if (event.key === "Escape") {
-        const leave = confirm("Are you sure you want to leave the survey?");
-        if (leave) navigate(AppRoutes.LANDING);
+        const leave =
+          status === "completed"
+            ? true
+            : confirm("Are you sure you want to leave the survey?");
+
+        if (leave) onExit();
       }
     },
-    [acknowledge, image, navigate]
+    [onClick, onExit, status]
   );
 
   return (
@@ -53,11 +70,33 @@ export default function SurveyPage() {
       tabIndex={0}
       role="presentation"
     >
-      <img
-        className={styles.image}
-        style={{ display: image.hidden ? "none" : "unset" }}
-        src={image.source}
-      />
+      {status === "loading" && (
+        <Skeleton aria-label="loading">
+          <SkeletonItem shape="rectangle" size={24} />
+          <SkeletonItem shape="rectangle" size={24} />
+          <SkeletonItem shape="rectangle" size={24} />
+        </Skeleton>
+      )}
+      {status === "idle" && (
+        <>
+          <Title3 as="h1">Click anywhere to begin</Title3>
+        </>
+      )}
+      {status === "in-progress" && (
+        <img
+          className={styles.image}
+          style={{ display: image.hidden ? "none" : "unset" }}
+          src={image.source}
+        />
+      )}
+      {status === "completed" && (
+        <>
+          <Title3 as="h1">
+            Survey is complete, thank you for participating!
+          </Title3>
+          <Link onClick={onExit}>Home</Link>
+        </>
+      )}
     </Flex>
   );
 }
