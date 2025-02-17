@@ -1,7 +1,6 @@
 import ImageProvider, { ImageState } from "../data-provider/ImageProvider";
 
 import Listenable from "../utils/Listenable";
-import { shuffle } from "../utils/ArrayUtils";
 
 export type TestState = {
   image: ImageState;
@@ -44,7 +43,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
 
   private async initialize(): Promise<void> {
     try {
-      const images = await this.imageProvider.getImageList().then(shuffle);
+      const images = await this.imageProvider.getImageList();
       this.tests = images.map((image) => ({ image, hidden: true }));
     } catch (error) {
       console.error(

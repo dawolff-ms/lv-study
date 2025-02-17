@@ -1,4 +1,5 @@
 import { BlobServiceClient } from "@azure/storage-blob";
+import { shuffle } from "../utils/ArrayUtils";
 
 export type ImageState = {
   source: string;
@@ -22,8 +23,18 @@ export default class ImageProvider {
 
       for await (const blob of container.listBlobsFlat()) {
         const source = `${this.blobUrl}/${this.container}/${blob.name}`;
-        images.push({ source, mode: "light" });
+        const mode = blob.name.startsWith("dark") ? "dark" : "light";
+        images.push({ source, mode });
       }
+
+      // Randomize the order of the images, but then group by light/dark mode.
+      // Whether light or dark mode comes first is also randomized.
+      shuffle(images);
+
+      const modeOrderVariant = Math.random() >= 0.5 ? 1 : -1;
+      images.sort((a) =>
+        a.mode === "light" ? -modeOrderVariant : modeOrderVariant
+      );
 
       return images;
     } catch (error) {
