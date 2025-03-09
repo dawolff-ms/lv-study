@@ -3,6 +3,7 @@ import { shuffle } from "../utils/ArrayUtils";
 
 export type ImageState = {
   source: string;
+  name: string;
   mode: "light" | "dark";
 };
 
@@ -24,7 +25,7 @@ export default class ImageProvider {
       for await (const blob of container.listBlobsFlat()) {
         const source = `${this.blobUrl}/${this.container}/${blob.name}`;
         const mode = blob.name.startsWith("dark") ? "dark" : "light";
-        images.push({ source, mode });
+        images.push({ source, mode, name: blob.name });
       }
 
       // Randomize the order of the images, but then group by light/dark mode.
