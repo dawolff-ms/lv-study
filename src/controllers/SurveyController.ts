@@ -1,4 +1,6 @@
+import { nanoid } from "nanoid";
 import ImageProvider, { ImageState } from "../data-provider/ImageProvider";
+import ResultsProvider from "../data-provider/ResultsProvider";
 
 import Listenable from "../utils/Listenable";
 
@@ -7,6 +9,7 @@ export type TestState = {
   hidden: boolean;
   start?: number;
   delay?: number;
+  timeout?: number;
 };
 
 export type SurveyControllerEvent =
@@ -16,19 +19,25 @@ export type SurveyControllerEvent =
   | { type: "survey-reset" };
 
 export default class SurveyController extends Listenable<SurveyControllerEvent> {
+  private SKIP_TIMEOUT_MS = 15000;
+
   private imageProvider: ImageProvider;
+  private resultsProvider: ResultsProvider;
 
   private tests: TestState[] = [];
   private currentIndex = -1;
+
+  private userId?: string;
 
   private _initialization: Promise<void>;
   public get initialization(): Promise<void> {
     return this._initialization;
   }
 
-  constructor(imageProvider: ImageProvider) {
+  constructor(imageProvider: ImageProvider, resultsProvider: ResultsProvider) {
     super();
     this.imageProvider = imageProvider;
+    this.resultsProvider = resultsProvider;
 
     this.initialize = this.initialize.bind(this);
     this.getCurrentTest = this.getCurrentTest.bind(this);
@@ -59,7 +68,8 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   public start(): void {
-    console.log("Starting survey");
+    this.userId = nanoid(8);
+
     this.updateListeners({ type: "survey-started" });
     this.queueNextImage();
   }
@@ -68,23 +78,47 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     const currentTest = this.tests[this.currentIndex];
     if (test.image.source !== currentTest.image.source) return;
     if (currentTest.start == null) return;
+    if (this.userId == null) return;
+
+    // Prevent the skip timeout from triggering.
+    clearTimeout(currentTest.timeout);
 
     const now = performance.now();
-    const duration = now - currentTest.start;
+    const duration = Math.floor(now - currentTest.start);
 
     console.log(
       `Acknowledged image ${currentTest.image.source} in ${duration}ms`
     );
+
+    this.resultsProvider.createResult({
+      UserID: this.userId,
+      TestName: currentTest.image.name,
+      TestNumber: this.currentIndex,
+      Duration: duration,
+      Delay: currentTest.delay ?? 0,
+      Acknowledged: true,
+    });
     this.queueNextImage();
   }
 
-  public skip(): void {
-    console.log(`Skipped image ${this.tests[this.currentIndex].image.source}`);
+  public skip(test: TestState): void {
+    const currentTest = this.tests[this.currentIndex];
+    if (test.image.source !== currentTest.image.source) return;
+    if (this.userId == null) return;
+
+    console.log(`Skipped image ${currentTest.image.source}`);
+
+    this.resultsProvider.createResult({
+      UserID: this.userId,
+      TestName: currentTest.image.name,
+      TestNumber: this.currentIndex,
+      Delay: currentTest.delay ?? 0,
+      Acknowledged: false,
+    });
     this.queueNextImage();
   }
 
   public reset(): void {
-    console.log("Resetting survey");
     this.currentIndex = -1;
     this.tests.forEach((test) => {
       test.hidden = true;
@@ -109,6 +143,8 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     });
 
     test.delay = Math.floor(Math.random() * 5000) + 1000;
+
+    // Timeout for the delay before showing the image.
     setTimeout(() => {
       test.hidden = false;
       test.start = performance.now();
@@ -117,5 +153,10 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
         test: { ...test },
       });
     }, test.delay);
+
+    // Timeout for when we auto-skip the image.
+    test.timeout = setTimeout(() => {
+      this.skip(test);
+    }, test.delay + this.SKIP_TIMEOUT_MS);
   }
 }

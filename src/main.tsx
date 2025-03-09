@@ -4,11 +4,13 @@ import { StrictMode } from "react";
 import SurveyController from "./controllers/SurveyController.ts";
 import { SurveyProvider } from "./contexts/SurveyContext.tsx";
 import { createRoot } from "react-dom/client";
+import ResultsProvider from "./data-provider/ResultsProvider.ts";
 
 const BlobStorageUrl = import.meta.env.VITE_BlobStorageUrl;
 
 const imageProvider = new ImageProvider(BlobStorageUrl);
-const surveyController = new SurveyController(imageProvider);
+const resultsProvider = new ResultsProvider();
+const surveyController = new SurveyController(imageProvider, resultsProvider);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
