@@ -9,7 +9,7 @@ export type TestState = {
   hidden: boolean;
   start?: number;
   delay?: number;
-  timeout?: number;
+  timeout?: NodeJS.Timeout;
 };
 
 export type SurveyControllerEvent =

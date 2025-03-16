@@ -6,6 +6,9 @@ import { SurveyProvider } from "./contexts/SurveyContext.tsx";
 import { createRoot } from "react-dom/client";
 import ResultsProvider from "./data-provider/ResultsProvider.ts";
 
+import images from "./image-list.json";
+console.log(images);
+
 const BlobStorageUrl = import.meta.env.VITE_BlobStorageUrl;
 
 const imageProvider = new ImageProvider(BlobStorageUrl);
