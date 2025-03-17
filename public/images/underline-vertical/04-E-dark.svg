@@ -1,0 +1,24 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="04-E-dark">
+<rect width="500" height="300" rx="30" fill="#292929"/>
+<g id="Field">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="white" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="138.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input">
+<g id="Contents">
+<g id="Icon-Text-stack">
+<g id="Text_2">
+<text id="Placeholder text" fill="#5C5C5C" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="40" y="167.797">Placeholder text</tspan></text>
+</g>
+</g>
+</g>
+<path id="Thin underline" d="M28 178H472V179H28V178Z" fill="#424242"/>
+</g>
+</g>
+</g>
+</g>
+</svg>
