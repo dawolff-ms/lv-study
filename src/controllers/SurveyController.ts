@@ -1,5 +1,8 @@
 import { nanoid } from "nanoid";
-import ImageProvider, { ImageState } from "../data-provider/ImageProvider";
+import {
+  ImageProvider,
+  ImageState,
+} from "../data-provider/images/ImageProvider";
 import ResultsProvider from "../data-provider/ResultsProvider";
 
 import Listenable from "../utils/Listenable";
