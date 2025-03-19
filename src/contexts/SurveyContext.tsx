@@ -30,7 +30,7 @@ export function SurveyProvider(
 
   const [test, setTest] = React.useState<TestState>(
     controller.getCurrentTest() ?? {
-      image: { source: "", mode: "light" },
+      image: { source: "", mode: "dark" },
       hidden: true,
     }
   );
