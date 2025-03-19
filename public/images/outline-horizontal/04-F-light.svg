@@ -1,0 +1,43 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="04-F-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field-horz">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="154.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input.AutoFill">
+<g id="Input">
+<g clip-path="url(#clip0_246_10824)">
+<g id="Contents">
+<path d="M210.5 138C210.5 136.067 212.067 134.5 214 134.5H468C469.933 134.5 471.5 136.067 471.5 138V162C471.5 163.933 469.933 165.5 468 165.5H214C212.067 165.5 210.5 163.933 210.5 162V138Z" fill="url(#paint0_linear_246_10824)" fill-opacity="0.1"/>
+<path d="M210.5 138C210.5 136.067 212.067 134.5 214 134.5H468C469.933 134.5 471.5 136.067 471.5 138V162C471.5 163.933 469.933 165.5 468 165.5H214C212.067 165.5 210.5 163.933 210.5 162V138Z" stroke="url(#paint1_linear_246_10824)"/>
+<g id="Icon-Text-stack">
+<g id="Text_2">
+<text id="Placeholder text" fill="#707070" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="222" y="154.797">Placeholder text</tspan></text>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_246_10824" x1="210" y1="150" x2="472" y2="150" gradientUnits="userSpaceOnUse">
+<stop stop-color="#47CFFA"/>
+<stop offset="1" stop-color="#B47CF8"/>
+</linearGradient>
+<linearGradient id="paint1_linear_246_10824" x1="210" y1="150" x2="472" y2="150" gradientUnits="userSpaceOnUse">
+<stop offset="0.35" stop-color="#335CCC"/>
+<stop offset="0.7" stop-color="#47CFFA"/>
+<stop offset="0.92" stop-color="#B47CF8"/>
+</linearGradient>
+<clipPath id="clip0_246_10824">
+<path d="M210 138C210 135.791 211.791 134 214 134H468C470.209 134 472 135.791 472 138V162C472 164.209 470.209 166 468 166H214C211.791 166 210 164.209 210 162V138Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

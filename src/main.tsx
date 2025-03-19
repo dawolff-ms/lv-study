@@ -1,14 +1,12 @@
 import App from "./App.tsx";
-import ImageProvider from "./data-provider/ImageProvider.ts";
 import { StrictMode } from "react";
 import SurveyController from "./controllers/SurveyController.ts";
 import { SurveyProvider } from "./contexts/SurveyContext.tsx";
 import { createRoot } from "react-dom/client";
 import ResultsProvider from "./data-provider/ResultsProvider.ts";
+import ImageProviderFactory from "./data-provider/images/ImageProvider.ts";
 
-const BlobStorageUrl = import.meta.env.VITE_BlobStorageUrl;
-
-const imageProvider = new ImageProvider(BlobStorageUrl);
+const imageProvider = ImageProviderFactory.create();
 const resultsProvider = new ResultsProvider();
 const surveyController = new SurveyController(imageProvider, resultsProvider);
 

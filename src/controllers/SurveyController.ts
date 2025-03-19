@@ -1,5 +1,8 @@
 import { nanoid } from "nanoid";
-import ImageProvider, { ImageState } from "../data-provider/ImageProvider";
+import {
+  ImageProvider,
+  ImageState,
+} from "../data-provider/images/ImageProvider";
 import ResultsProvider from "../data-provider/ResultsProvider";
 
 import Listenable from "../utils/Listenable";
@@ -9,7 +12,7 @@ export type TestState = {
   hidden: boolean;
   start?: number;
   delay?: number;
-  timeout?: number;
+  timeout?: NodeJS.Timeout;
 };
 
 export type SurveyControllerEvent =

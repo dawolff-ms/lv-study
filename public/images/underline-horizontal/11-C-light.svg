@@ -1,0 +1,24 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="11-C-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field-horz">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="154.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input">
+<g id="Contents">
+<g id="Icon-Text-stack">
+<g id="Text_2">
+<text id="Entered text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="222" y="154.797">Entered text</tspan></text>
+</g>
+</g>
+</g>
+<rect id="InFocus" x="210" y="164" width="262" height="2" rx="1" fill="#0F6CBD"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

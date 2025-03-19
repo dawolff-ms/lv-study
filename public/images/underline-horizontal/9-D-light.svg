@@ -1,0 +1,24 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="9-D-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field-horz">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="154.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input">
+<g id="Contents">
+<g id="Icon End">
+<g id="Icon End 1 medium">
+<path id="Shape" d="M457.854 147.646C458.049 147.841 458.05 148.157 457.855 148.353L452.39 153.837C452.175 154.053 451.826 154.053 451.611 153.837L446.146 148.353C445.951 148.157 445.951 147.841 446.147 147.646C446.343 147.451 446.659 147.451 446.854 147.647L452 152.812L457.147 147.647C457.342 147.451 457.658 147.451 457.854 147.646Z" fill="#616161"/>
+</g>
+</g>
+</g>
+<path id="Thin underline" d="M210 165H472V166H210V165Z" fill="#C50F1F"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

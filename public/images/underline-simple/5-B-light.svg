@@ -1,0 +1,20 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="5-B-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field-horz">
+<g id="Form + Text">
+<g id="Input">
+<g id="Contents">
+<g id="Icon-Text-stack">
+<g id="Text">
+<text id="Entered text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="40" y="154.797">Entered text</tspan></text>
+</g>
+</g>
+</g>
+<rect id="Thick underline" x="28" y="164" width="444" height="2" rx="1" fill="#4D4D4D"/>
+<path id="Pressed" d="M189.742 164H311.842L311.666 166H189.903L189.742 164Z" fill="#0F548C"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

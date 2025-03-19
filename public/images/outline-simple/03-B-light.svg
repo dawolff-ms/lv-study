@@ -1,0 +1,29 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="03-B-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field-horz">
+<g id="Form + Text">
+<g id="Input">
+<g clip-path="url(#clip0_121_38138)">
+<g id="Contents">
+<rect x="28.5" y="134.5" width="443" height="31" rx="3.5" fill="white"/>
+<rect x="28.5" y="134.5" width="443" height="31" rx="3.5" stroke="#D1D1D1"/>
+<g id="Icon End">
+<g id="Icon End 1 medium">
+<path id="Shape" d="M457.853 147.646C458.048 147.841 458.049 148.157 457.854 148.353L452.389 153.837C452.174 154.053 451.825 154.053 451.61 153.837L446.145 148.353C445.95 148.157 445.95 147.841 446.146 147.646C446.342 147.451 446.658 147.451 446.853 147.647L451.999 152.812L457.146 147.647C457.341 147.451 457.657 147.451 457.853 147.646Z" fill="#616161"/>
+</g>
+</g>
+</g>
+<path id="Thick underline" d="M28 164H472V166H28V164Z" fill="#4D4D4D"/>
+<path id="Pressed" d="M189.743 164H311.843L311.667 166H189.904L189.743 164Z" fill="#114AB0"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_121_38138">
+<path d="M28 138C28 135.791 29.7909 134 32 134H468C470.209 134 472 135.791 472 138V162C472 164.209 470.209 166 468 166H32C29.7909 166 28 164.209 28 162V138Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

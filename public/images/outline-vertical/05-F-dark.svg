@@ -1,0 +1,65 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="05-F-dark">
+<rect width="500" height="300" rx="30" fill="#292929"/>
+<g id="Field">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="white" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="138.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input">
+<g clip-path="url(#clip0_287_168086)">
+<g id="Contents">
+<rect x="28.5" y="147.5" width="443" height="31" rx="3.5" stroke="#D1D1D1"/>
+<g id="Icon-Text-stack">
+<g id="Text_2">
+<text id="Entered text" fill="white" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="40" y="167.797">Entered text</tspan></text>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g id="Input.AutoFill">
+<g id="Input_2">
+<g clip-path="url(#clip1_287_168086)">
+<g id="Contents_2">
+<path d="M32 147.5H396C397.933 147.5 399.5 149.067 399.5 151V175C399.5 176.933 397.933 178.5 396 178.5H32C30.067 178.5 28.5 176.933 28.5 175V151C28.5 149.067 30.067 147.5 32 147.5Z" fill="url(#paint0_linear_287_168086)" fill-opacity="0.1"/>
+<path d="M32 147.5H396C397.933 147.5 399.5 149.067 399.5 151V175C399.5 176.933 397.933 178.5 396 178.5H32C30.067 178.5 28.5 176.933 28.5 175V151C28.5 149.067 30.067 147.5 32 147.5Z" stroke="url(#paint1_linear_287_168086)"/>
+</g>
+</g>
+</g>
+<g id="Button">
+<path d="M408 147.5H432C433.933 147.5 435.5 149.067 435.5 151V175C435.5 176.933 433.933 178.5 432 178.5H408C406.067 178.5 404.5 176.933 404.5 175V151C404.5 149.067 406.067 147.5 408 147.5Z" stroke="#D1D1D1"/>
+<g id="Icon">
+<path id="Shape" d="M413.374 163.168C413.19 162.961 412.874 162.943 412.668 163.126C412.461 163.31 412.443 163.626 412.626 163.832L416.626 168.332C416.817 168.547 417.15 168.557 417.354 168.354L427.854 157.854C428.049 157.658 428.049 157.342 427.854 157.146C427.658 156.951 427.342 156.951 427.146 157.146L417.021 167.271L413.374 163.168Z" fill="white"/>
+</g>
+</g>
+<g id="Button_2">
+<path d="M444 147.5H468C469.933 147.5 471.5 149.067 471.5 151V175C471.5 176.933 469.933 178.5 468 178.5H444C442.067 178.5 440.5 176.933 440.5 175V151C440.5 149.067 442.067 147.5 444 147.5Z" stroke="#D1D1D1"/>
+<g id="Icon_2">
+<path id="Shape_2" d="M450.089 157.216L450.146 157.146C450.32 156.973 450.589 156.954 450.784 157.089L450.854 157.146L456 162.293L461.146 157.146C461.32 156.973 461.589 156.954 461.784 157.089L461.854 157.146C462.027 157.32 462.046 157.589 461.911 157.784L461.854 157.854L456.707 163L461.854 168.146C462.027 168.32 462.046 168.589 461.911 168.784L461.854 168.854C461.68 169.027 461.411 169.046 461.216 168.911L461.146 168.854L456 163.707L450.854 168.854C450.68 169.027 450.411 169.046 450.216 168.911L450.146 168.854C449.973 168.68 449.954 168.411 450.089 168.216L450.146 168.146L455.293 163L450.146 157.854C449.973 157.68 449.954 157.411 450.089 157.216L450.146 157.146L450.089 157.216Z" fill="white"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_287_168086" x1="28" y1="163" x2="400" y2="163" gradientUnits="userSpaceOnUse">
+<stop stop-color="#47CFFA"/>
+<stop offset="1" stop-color="#B47CF8"/>
+</linearGradient>
+<linearGradient id="paint1_linear_287_168086" x1="28" y1="163" x2="400" y2="163" gradientUnits="userSpaceOnUse">
+<stop offset="0.35" stop-color="#335CCC"/>
+<stop offset="0.7" stop-color="#47CFFA"/>
+<stop offset="0.92" stop-color="#B47CF8"/>
+</linearGradient>
+<clipPath id="clip0_287_168086">
+<path d="M28 151C28 148.791 29.7909 147 32 147H468C470.209 147 472 148.791 472 151V175C472 177.209 470.209 179 468 179H32C29.7909 179 28 177.209 28 175V151Z" fill="white"/>
+</clipPath>
+<clipPath id="clip1_287_168086">
+<path d="M28 151C28 148.791 29.7909 147 32 147H396C398.209 147 400 148.791 400 151V175C400 177.209 398.209 179 396 179H32C29.7909 179 28 177.209 28 175V151Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

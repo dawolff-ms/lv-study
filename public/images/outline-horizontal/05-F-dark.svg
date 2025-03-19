@@ -1,0 +1,55 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="05-F-dark">
+<rect width="500" height="300" rx="30" fill="#292929"/>
+<g id="Field-horz">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="white" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="154.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input.AutoFill">
+<g id="Input">
+<g clip-path="url(#clip0_287_168147)">
+<g id="Contents">
+<path d="M214 134.5H396C397.933 134.5 399.5 136.067 399.5 138V162C399.5 163.933 397.933 165.5 396 165.5H214C212.067 165.5 210.5 163.933 210.5 162V138C210.5 136.067 212.067 134.5 214 134.5Z" fill="url(#paint0_linear_287_168147)" fill-opacity="0.1"/>
+<path d="M214 134.5H396C397.933 134.5 399.5 136.067 399.5 138V162C399.5 163.933 397.933 165.5 396 165.5H214C212.067 165.5 210.5 163.933 210.5 162V138C210.5 136.067 212.067 134.5 214 134.5Z" stroke="url(#paint1_linear_287_168147)"/>
+<g id="Icon-Text-stack">
+<g id="Text_2">
+<text id="Placeholder text" fill="white" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="222" y="154.797">Placeholder text</tspan></text>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g id="Button">
+<path d="M408 134.5H432C433.933 134.5 435.5 136.067 435.5 138V162C435.5 163.933 433.933 165.5 432 165.5H408C406.067 165.5 404.5 163.933 404.5 162V138C404.5 136.067 406.067 134.5 408 134.5Z" stroke="#D1D1D1"/>
+<g id="Icon">
+<path id="Shape" d="M413.374 150.168C413.19 149.961 412.874 149.943 412.668 150.126C412.461 150.31 412.443 150.626 412.626 150.832L416.626 155.332C416.817 155.547 417.15 155.557 417.354 155.354L427.854 144.854C428.049 144.658 428.049 144.342 427.854 144.146C427.658 143.951 427.342 143.951 427.146 144.146L417.021 154.271L413.374 150.168Z" fill="white"/>
+</g>
+</g>
+<g id="Button_2">
+<path d="M444 134.5H468C469.933 134.5 471.5 136.067 471.5 138V162C471.5 163.933 469.933 165.5 468 165.5H444C442.067 165.5 440.5 163.933 440.5 162V138C440.5 136.067 442.067 134.5 444 134.5Z" stroke="#D1D1D1"/>
+<g id="Icon_2">
+<path id="Shape_2" d="M450.089 144.216L450.146 144.146C450.32 143.973 450.589 143.954 450.784 144.089L450.854 144.146L456 149.293L461.146 144.146C461.32 143.973 461.589 143.954 461.784 144.089L461.854 144.146C462.027 144.32 462.046 144.589 461.911 144.784L461.854 144.854L456.707 150L461.854 155.146C462.027 155.32 462.046 155.589 461.911 155.784L461.854 155.854C461.68 156.027 461.411 156.046 461.216 155.911L461.146 155.854L456 150.707L450.854 155.854C450.68 156.027 450.411 156.046 450.216 155.911L450.146 155.854C449.973 155.68 449.954 155.411 450.089 155.216L450.146 155.146L455.293 150L450.146 144.854C449.973 144.68 449.954 144.411 450.089 144.216L450.146 144.146L450.089 144.216Z" fill="white"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_287_168147" x1="210" y1="150" x2="400" y2="150" gradientUnits="userSpaceOnUse">
+<stop stop-color="#47CFFA"/>
+<stop offset="1" stop-color="#B47CF8"/>
+</linearGradient>
+<linearGradient id="paint1_linear_287_168147" x1="210" y1="150" x2="400" y2="150" gradientUnits="userSpaceOnUse">
+<stop offset="0.35" stop-color="#335CCC"/>
+<stop offset="0.7" stop-color="#47CFFA"/>
+<stop offset="0.92" stop-color="#B47CF8"/>
+</linearGradient>
+<clipPath id="clip0_287_168147">
+<path d="M210 138C210 135.791 211.791 134 214 134H396C398.209 134 400 135.791 400 138V162C400 164.209 398.209 166 396 166H214C211.791 166 210 164.209 210 162V138Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

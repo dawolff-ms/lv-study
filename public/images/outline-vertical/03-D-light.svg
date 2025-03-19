@@ -1,0 +1,32 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="03-D-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="138.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input">
+<g clip-path="url(#clip0_121_33462)">
+<g id="Contents">
+<rect x="28.5" y="147.5" width="443" height="31" rx="3.5" fill="white"/>
+<rect x="28.5" y="147.5" width="443" height="31" rx="3.5" stroke="#C50F1F"/>
+<g id="Icon End">
+<g id="Icon End 1 medium">
+<path id="Shape" d="M457.853 160.646C458.048 160.841 458.049 161.157 457.854 161.353L452.389 166.837C452.174 167.053 451.825 167.053 451.61 166.837L446.145 161.353C445.95 161.157 445.95 160.841 446.146 160.646C446.342 160.451 446.658 160.451 446.853 160.647L451.999 165.812L457.146 160.647C457.341 160.451 457.657 160.451 457.853 160.646Z" fill="#616161"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_121_33462">
+<path d="M28 151C28 148.791 29.7909 147 32 147H468C470.209 147 472 148.791 472 151V175C472 177.209 470.209 179 468 179H32C29.7909 179 28 177.209 28 175V151Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

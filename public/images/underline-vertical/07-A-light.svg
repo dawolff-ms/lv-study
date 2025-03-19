@@ -1,0 +1,29 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="07-A-light">
+<rect width="500" height="300" rx="30" fill="white"/>
+<g id="Field">
+<g id="Label + Icon">
+<g id="Label">
+<text id="Text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="28" y="138.797">Label</tspan></text>
+</g>
+</g>
+<g id="Form + Text">
+<g id="Input">
+<g id="Contents">
+<g id="Icon-Text-stack">
+<g id="Text_2">
+<text id="Entered text" fill="#242424" xml:space="preserve" style="white-space: pre" font-family="Segoe UI" font-size="14" letter-spacing="0em"><tspan x="40" y="167.797">Entered text</tspan></text>
+</g>
+</g>
+<g id="Icon End">
+<g id="Icon End 1 medium">
+<path id="Shape" d="M457.854 160.646C458.049 160.841 458.05 161.157 457.855 161.353L452.39 166.837C452.175 167.053 451.826 167.053 451.611 166.837L446.146 161.353C445.951 161.157 445.951 160.841 446.147 160.646C446.343 160.451 446.659 160.451 446.854 160.647L452 165.812L457.147 160.647C457.342 160.451 457.658 160.451 457.854 160.646Z" fill="#616161"/>
+</g>
+</g>
+</g>
+<path id="Thin underline" d="M28 178H472V179H28V178Z" fill="#616161"/>
+</g>
+</g>
+</g>
+</g>
+</svg>
