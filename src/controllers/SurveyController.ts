@@ -22,7 +22,7 @@ export type SurveyControllerEvent =
   | { type: "survey-reset" };
 
 export default class SurveyController extends Listenable<SurveyControllerEvent> {
-  private SKIP_TIMEOUT_MS = 15000;
+  private SKIP_TIMEOUT_MS = 20000;
 
   private imageProvider: ImageProvider;
   private resultsProvider: ResultsProvider;
