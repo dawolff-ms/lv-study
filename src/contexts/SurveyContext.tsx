@@ -7,10 +7,11 @@ import SurveyController, {
 
 export type SurveyContext = {
   status: SurveyStatus;
+  test?: TestState;
   acknowledge: (test: TestState) => void;
   start: () => void;
   reset: () => void;
-  test: TestState;
+  setMode: (mode: "light" | "dark" | "both") => void;
   error?: Error;
 };
 
@@ -28,12 +29,7 @@ export function SurveyProvider(
   const [status, setStatus] = React.useState<SurveyStatus>("loading");
   const [error, setError] = React.useState<Error | null>(null);
 
-  const [test, setTest] = React.useState<TestState>(
-    controller.getCurrentTest() ?? {
-      image: { source: "", mode: "dark" },
-      hidden: true,
-    }
-  );
+  const [test, setTest] = React.useState<TestState>();
 
   React.useEffect(() => {
     controller.initialization.catch(setError).finally(() => setStatus("idle"));
@@ -47,6 +43,7 @@ export function SurveyProvider(
           break;
         case "survey-reset":
           setStatus("idle");
+          setTest(undefined);
           break;
         case "survey-completed":
           setStatus("completed");
@@ -68,10 +65,11 @@ export function SurveyProvider(
       value={
         {
           status,
+          test,
           acknowledge: controller.acknowledge,
           start: controller.start,
           reset: controller.reset,
-          test,
+          setMode: controller.setMode,
           error,
         } as SurveyContext
       }

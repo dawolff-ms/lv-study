@@ -3,10 +3,12 @@ import { shuffle } from "../../utils/ArrayUtils";
 
 import imageAssetList from "../../image-list.json";
 
+export type ImageMode = "light" | "dark";
+
 export type ImageState = {
   source: string;
   name: string;
-  mode: "light" | "dark";
+  mode: ImageMode;
 };
 
 export abstract class ImageProvider {

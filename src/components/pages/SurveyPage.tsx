@@ -41,7 +41,7 @@ export default function SurveyPage() {
 
   const onClick = React.useCallback(() => {
     if (status === "idle") start();
-    else if (status === "in-progress") acknowledge(test);
+    else if (status === "in-progress" && test != null) acknowledge(test);
   }, [start, acknowledge, test, status]);
 
   const onExit = React.useCallback(() => {
@@ -68,7 +68,7 @@ export default function SurveyPage() {
 
   return (
     <FluentProvider
-      theme={test.image.mode === "light" ? webLightTheme : webDarkTheme}
+      theme={test?.image?.mode === "light" ? webLightTheme : webDarkTheme}
       className={styles.background}
     >
       <Flex
@@ -92,7 +92,7 @@ export default function SurveyPage() {
             <Title3 as="h1">Click anywhere to begin</Title3>
           </>
         )}
-        {status === "in-progress" && (
+        {status === "in-progress" && test != null && (
           <img
             className={styles.image}
             style={{ display: test.hidden ? "none" : "unset" }}
