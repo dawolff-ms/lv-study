@@ -11,15 +11,17 @@ export type ImageState = {
 
 export abstract class ImageProvider {
   abstract getImageList(): Promise<ImageState[]>;
-  protected orderImages(images: ImageState[]): ImageState[] {
-    // Randomize the order of the images, but then group by light/dark mode.
-    // Whether light or dark mode comes first is also randomized.
-    shuffle(images);
 
-    const modeOrderVariant = Math.random() >= 0.5 ? 1 : -1;
-    images.sort((a) =>
-      a.mode === "light" ? -modeOrderVariant : modeOrderVariant
-    );
+  /**
+   * Randomize the order of the images, but then group by light/dark mode.
+   * Light mode will always come first.
+   * @param images an array of image states.
+   * @returns an array consisting of the same image states, but shuffled and
+   * then ordered so all light mode images come first.
+   */
+  protected orderImages(images: ImageState[]): ImageState[] {
+    shuffle(images);
+    images.sort((a) => (a.mode === "light" ? -1 : 1));
     return images;
   }
 }
