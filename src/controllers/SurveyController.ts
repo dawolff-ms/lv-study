@@ -23,10 +23,12 @@ export type SurveyControllerEvent =
   | { type: "test-state-update"; test: TestState }
   | { type: "survey-started" }
   | { type: "survey-completed" }
-  | { type: "survey-reset" };
+  | { type: "survey-reset" }
+  | { type: "survey-break" };
 
 export default class SurveyController extends Listenable<SurveyControllerEvent> {
   private SKIP_TIMEOUT_MS = 20000;
+  private BREAK_CADENCE = 25;
 
   private imageProvider: ImageProvider;
   private resultsProvider: ResultsProvider;
@@ -53,6 +55,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.start = this.start.bind(this);
     this.acknowledge = this.acknowledge.bind(this);
     this.skip = this.skip.bind(this);
+    this.resume = this.resume.bind(this);
     this.reset = this.reset.bind(this);
     this.setMode = this.setMode.bind(this);
     this.queueNextImage = this.queueNextImage.bind(this);
@@ -129,6 +132,10 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.queueNextImage();
   }
 
+  public resume(): void {
+    this.queueNextImage(true);
+  }
+
   public reset(): void {
     // Clear out the current test, if applicable.
     const currentTest = this.currentTests[this.currentIndex];
@@ -161,20 +168,29 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     return this.mode;
   }
 
-  private queueNextImage(): void {
+  private queueNextImage(isResuming = false): void {
+    // If the next image aligns with the break cadence, we should pause. We skip
+    // this check if we're resuming from a break or if we're just starting the survey.
+    const isStarting = this.currentIndex === -1;
+    if (
+      !isResuming &&
+      !isStarting &&
+      (this.currentIndex + 1) % this.BREAK_CADENCE === 0
+    ) {
+      this.updateListeners({ type: "survey-break" });
+      return;
+    }
+
+    // Go to the next test. If we're out of tests, then we're done.
     this.currentIndex++;
     if (this.currentIndex >= this.currentTests.length) {
       this.updateListeners({ type: "survey-completed" });
       return;
     }
 
+    // If we're not done, then we set up the next test.
     const test = this.currentTests[this.currentIndex];
     test.hidden = true;
-    this.updateListeners({
-      type: "test-state-update",
-      test: { ...test },
-    });
-
     test.delay = Math.floor(Math.random() * 5000) + 1000;
 
     // Timeout for the delay before showing the image.
@@ -191,5 +207,11 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     test.skipTimeout = setTimeout(() => {
       this.skip(test);
     }, test.delay + this.SKIP_TIMEOUT_MS);
+
+    // Update the listeners with the new test state.
+    this.updateListeners({
+      type: "test-state-update",
+      test: { ...test },
+    });
   }
 }

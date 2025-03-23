@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { test, acknowledge, start, reset, status, mode } =
+  const { test, acknowledge, start, resume, reset, status, mode } =
     React.useContext(SurveyContext);
 
   const navigate = useNavigate();
@@ -44,7 +44,8 @@ export default function SurveyPage() {
   const onClick = React.useCallback(() => {
     if (status === "idle") start();
     else if (status === "in-progress" && test != null) acknowledge(test);
-  }, [start, acknowledge, test, status]);
+    else if (status === "break") resume();
+  }, [status, start, acknowledge, test, resume]);
 
   const onExit = React.useCallback(() => {
     navigate(AppRoutes.LANDING);
@@ -97,6 +98,12 @@ export default function SurveyPage() {
                 The screen will transition to light mode once you begin.
               </Body1Strong>
             )}
+          </>
+        )}
+        {status === "break" && (
+          <>
+            <Title2 as="h1">Take a break</Title2>
+            <Body1Strong>Click anywhere to continue</Body1Strong>
           </>
         )}
         {status === "in-progress" && test != null && (

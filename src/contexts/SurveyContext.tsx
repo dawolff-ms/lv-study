@@ -11,13 +11,14 @@ export type SurveyContext = {
   test?: TestState;
   acknowledge: (test: TestState) => void;
   start: () => void;
+  resume: () => void;
   reset: () => void;
   setMode: (mode: SurveyMode) => void;
   mode: SurveyMode;
   error?: Error;
 };
 
-type SurveyStatus = "loading" | "completed" | "idle" | "in-progress";
+type SurveyStatus = "loading" | "completed" | "idle" | "in-progress" | "break";
 
 const SurveyContext = React.createContext<SurveyContext>({} as SurveyContext);
 
@@ -56,10 +57,14 @@ export function SurveyProvider(
           setStatus("idle");
           setTest(undefined);
           break;
+        case "survey-break":
+          setStatus("break");
+          break;
         case "survey-completed":
           setStatus("completed");
           break;
         case "test-state-update":
+          setStatus("in-progress");
           setTest(event.test);
           break;
       }
@@ -79,6 +84,7 @@ export function SurveyProvider(
           test,
           acknowledge: controller.acknowledge,
           start: controller.start,
+          resume: controller.resume,
           reset: controller.reset,
           setMode: setModeHandler,
           mode,
