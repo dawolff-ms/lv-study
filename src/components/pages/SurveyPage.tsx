@@ -1,8 +1,10 @@
 import {
+  Body1Strong,
   FluentProvider,
   Link,
   Skeleton,
   SkeletonItem,
+  Title2,
   Title3,
   makeStyles,
   webDarkTheme,
@@ -34,14 +36,14 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { test, acknowledge, start, reset, status } =
+  const { test, acknowledge, start, reset, status, mode } =
     React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
   const onClick = React.useCallback(() => {
     if (status === "idle") start();
-    else if (status === "in-progress") acknowledge(test);
+    else if (status === "in-progress" && test != null) acknowledge(test);
   }, [start, acknowledge, test, status]);
 
   const onExit = React.useCallback(() => {
@@ -68,7 +70,7 @@ export default function SurveyPage() {
 
   return (
     <FluentProvider
-      theme={test.image.mode === "light" ? webLightTheme : webDarkTheme}
+      theme={test?.image?.mode === "light" ? webLightTheme : webDarkTheme}
       className={styles.background}
     >
       <Flex
@@ -89,10 +91,15 @@ export default function SurveyPage() {
         )}
         {status === "idle" && (
           <>
-            <Title3 as="h1">Click anywhere to begin</Title3>
+            <Title2 as="h1">Click anywhere to begin</Title2>
+            {mode === "light" && (
+              <Body1Strong>
+                The screen will transition to light mode once you begin.
+              </Body1Strong>
+            )}
           </>
         )}
-        {status === "in-progress" && (
+        {status === "in-progress" && test != null && (
           <img
             className={styles.image}
             style={{ display: test.hidden ? "none" : "unset" }}

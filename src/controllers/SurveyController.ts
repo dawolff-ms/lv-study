@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import {
+  ImageMode,
   ImageProvider,
   ImageState,
 } from "../data-provider/images/ImageProvider";
@@ -7,12 +8,15 @@ import ResultsProvider from "../data-provider/ResultsProvider";
 
 import Listenable from "../utils/Listenable";
 
+export type SurveyMode = ImageMode | "both";
+
 export type TestState = {
   image: ImageState;
   hidden: boolean;
   start?: number;
   delay?: number;
-  timeout?: NodeJS.Timeout;
+  showTimeout?: NodeJS.Timeout;
+  skipTimeout?: NodeJS.Timeout;
 };
 
 export type SurveyControllerEvent =
@@ -27,9 +31,11 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   private imageProvider: ImageProvider;
   private resultsProvider: ResultsProvider;
 
-  private tests: TestState[] = [];
+  private allTests: TestState[] = [];
+  private currentTests: TestState[] = [];
   private currentIndex = -1;
 
+  private mode: SurveyMode = "light";
   private userId?: string;
 
   private _initialization: Promise<void>;
@@ -48,6 +54,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.acknowledge = this.acknowledge.bind(this);
     this.skip = this.skip.bind(this);
     this.reset = this.reset.bind(this);
+    this.setMode = this.setMode.bind(this);
     this.queueNextImage = this.queueNextImage.bind(this);
 
     this._initialization = this.initialize();
@@ -56,7 +63,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   private async initialize(): Promise<void> {
     try {
       const images = await this.imageProvider.getImageList();
-      this.tests = images.map((image) => ({ image, hidden: true }));
+      this.allTests = images.map((image) => ({ image, hidden: true }));
     } catch (error) {
       console.error(
         "Something went wrong while initializing the SurveyController",
@@ -67,10 +74,11 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   public getCurrentTest(): TestState {
-    return this.tests[this.currentIndex];
+    return this.currentTests[this.currentIndex];
   }
 
   public start(): void {
+    this.reset();
     this.userId = nanoid(8);
 
     this.updateListeners({ type: "survey-started" });
@@ -78,13 +86,13 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   public acknowledge(test: TestState): void {
-    const currentTest = this.tests[this.currentIndex];
+    const currentTest = this.currentTests[this.currentIndex];
     if (test.image.source !== currentTest.image.source) return;
     if (currentTest.start == null) return;
     if (this.userId == null) return;
 
     // Prevent the skip timeout from triggering.
-    clearTimeout(currentTest.timeout);
+    clearTimeout(currentTest.skipTimeout);
 
     const now = performance.now();
     const duration = Math.floor(now - currentTest.start);
@@ -105,7 +113,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   public skip(test: TestState): void {
-    const currentTest = this.tests[this.currentIndex];
+    const currentTest = this.currentTests[this.currentIndex];
     if (test.image.source !== currentTest.image.source) return;
     if (this.userId == null) return;
 
@@ -122,23 +130,45 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   public reset(): void {
+    // Clear out the current test, if applicable.
+    const currentTest = this.currentTests[this.currentIndex];
+    if (currentTest != null) {
+      clearTimeout(currentTest.showTimeout);
+      clearTimeout(currentTest.skipTimeout);
+    }
+
+    // Recreate our current tests array, reset our index.
     this.currentIndex = -1;
-    this.tests.forEach((test) => {
-      test.hidden = true;
-      test.start = undefined;
-      test.delay = undefined;
-    });
+    this.currentTests = this.allTests
+      .filter((test) => {
+        if (this.mode === "both") return true;
+        return test.image.mode === this.mode;
+      })
+      .map((test) => ({ ...test }));
+
     this.updateListeners({ type: "survey-reset" });
+  }
+
+  /**
+   * Sets the mode of the survey. This will determine which images are shown.
+   * @param mode the mode to set the survey to.
+   */
+  public setMode(mode: SurveyMode): void {
+    this.mode = mode;
+  }
+
+  public getMode(): SurveyMode {
+    return this.mode;
   }
 
   private queueNextImage(): void {
     this.currentIndex++;
-    if (this.currentIndex >= this.tests.length) {
+    if (this.currentIndex >= this.currentTests.length) {
       this.updateListeners({ type: "survey-completed" });
       return;
     }
 
-    const test = this.tests[this.currentIndex];
+    const test = this.currentTests[this.currentIndex];
     test.hidden = true;
     this.updateListeners({
       type: "test-state-update",
@@ -148,7 +178,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     test.delay = Math.floor(Math.random() * 5000) + 1000;
 
     // Timeout for the delay before showing the image.
-    setTimeout(() => {
+    test.showTimeout = setTimeout(() => {
       test.hidden = false;
       test.start = performance.now();
       this.updateListeners({
@@ -158,7 +188,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     }, test.delay);
 
     // Timeout for when we auto-skip the image.
-    test.timeout = setTimeout(() => {
+    test.skipTimeout = setTimeout(() => {
       this.skip(test);
     }, test.delay + this.SKIP_TIMEOUT_MS);
   }

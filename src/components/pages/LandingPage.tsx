@@ -1,8 +1,19 @@
-import { Body1, Button, Title1, makeStyles } from "@fluentui/react-components";
+import {
+  Body1,
+  Button,
+  Divider,
+  Select,
+  SelectOnChangeData,
+  Title1,
+  makeStyles,
+} from "@fluentui/react-components";
 
 import { AppRoutes } from "../../constants/AppRoutes";
 import Flex from "../common/Flex";
 import { useNavigate } from "react-router";
+import React from "react";
+import SurveyContext from "../../contexts/SurveyContext";
+import { SurveyMode } from "../../controllers/SurveyController";
 
 const useStyles = makeStyles({
   container: {
@@ -16,6 +27,10 @@ const useStyles = makeStyles({
 export default function LandingPage() {
   const styles = useStyles();
   const navigate = useNavigate();
+
+  const selectId = "mode-select";
+
+  const { setMode } = React.useContext(SurveyContext);
 
   return (
     <Flex gap={12} className={styles.container}>
@@ -41,12 +56,29 @@ export default function LandingPage() {
         mattis. Molestie hac turpis lacus rhoncus pretium. Fermentum curabitur
         parturient sapien mollis ut nostra accumsan senectus.
       </Body1>
+
+      <br />
+      <Divider />
+      <br />
+
+      <label htmlFor={selectId}>Select the mode you'd like to test:</label>
+      <Select
+        id={selectId}
+        defaultValue="light"
+        onChange={(_, data: SelectOnChangeData) =>
+          setMode(data.value as SurveyMode)
+        }
+      >
+        {/*<option value="both">Light and Dark mode</option>*/}
+        <option value="light">Light mode only</option>
+        <option value="dark">Dark mode only</option>
+      </Select>
       <Button
         className={styles.button}
         appearance="primary"
         onClick={() => navigate(AppRoutes.SURVEY)}
       >
-        Take Survey
+        Start Survey
       </Button>
     </Flex>
   );
