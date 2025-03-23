@@ -35,7 +35,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   private currentTests: TestState[] = [];
   private currentIndex = -1;
 
-  private mode: SurveyMode = "both";
+  private mode: SurveyMode = "light";
   private userId?: string;
 
   private _initialization: Promise<void>;

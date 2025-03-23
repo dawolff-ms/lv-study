@@ -64,12 +64,12 @@ export default function LandingPage() {
       <label htmlFor={selectId}>Select the mode you'd like to test:</label>
       <Select
         id={selectId}
-        defaultValue="both"
+        defaultValue="light"
         onChange={(_, data: SelectOnChangeData) =>
           setMode(data.value as SurveyMode)
         }
       >
-        <option value="both">Light and Dark mode</option>
+        {/*<option value="both">Light and Dark mode</option>*/}
         <option value="light">Light mode only</option>
         <option value="dark">Dark mode only</option>
       </Select>
