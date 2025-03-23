@@ -1,8 +1,10 @@
 import {
+  Body1Strong,
   FluentProvider,
   Link,
   Skeleton,
   SkeletonItem,
+  Title2,
   Title3,
   makeStyles,
   webDarkTheme,
@@ -34,7 +36,7 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { test, acknowledge, start, reset, status } =
+  const { test, acknowledge, start, reset, status, mode } =
     React.useContext(SurveyContext);
 
   const navigate = useNavigate();
@@ -89,7 +91,12 @@ export default function SurveyPage() {
         )}
         {status === "idle" && (
           <>
-            <Title3 as="h1">Click anywhere to begin</Title3>
+            <Title2 as="h1">Click anywhere to begin</Title2>
+            {mode === "light" && (
+              <Body1Strong>
+                The screen will transition to light mode once you begin.
+              </Body1Strong>
+            )}
           </>
         )}
         {status === "in-progress" && test != null && (

@@ -157,6 +157,10 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.mode = mode;
   }
 
+  public getMode(): SurveyMode {
+    return this.mode;
+  }
+
   private queueNextImage(): void {
     this.currentIndex++;
     if (this.currentIndex >= this.currentTests.length) {

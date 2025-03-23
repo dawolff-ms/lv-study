@@ -2,6 +2,7 @@ import * as React from "react";
 
 import SurveyController, {
   SurveyControllerEvent,
+  SurveyMode,
   TestState,
 } from "../controllers/SurveyController";
 
@@ -11,7 +12,8 @@ export type SurveyContext = {
   acknowledge: (test: TestState) => void;
   start: () => void;
   reset: () => void;
-  setMode: (mode: "light" | "dark" | "both") => void;
+  setMode: (mode: SurveyMode) => void;
+  mode: SurveyMode;
   error?: Error;
 };
 
@@ -27,6 +29,7 @@ export function SurveyProvider(
   const { controller, children } = props;
 
   const [status, setStatus] = React.useState<SurveyStatus>("loading");
+  const [mode, setMode] = React.useState<SurveyMode>(controller.getMode());
   const [error, setError] = React.useState<Error | null>(null);
 
   const [test, setTest] = React.useState<TestState>();
@@ -34,6 +37,14 @@ export function SurveyProvider(
   React.useEffect(() => {
     controller.initialization.catch(setError).finally(() => setStatus("idle"));
   }, [controller]);
+
+  const setModeHandler = React.useCallback(
+    (mode: SurveyMode) => {
+      controller.setMode(mode);
+      setMode(mode);
+    },
+    [controller]
+  );
 
   React.useEffect(() => {
     const listener = (event: SurveyControllerEvent) => {
@@ -69,7 +80,8 @@ export function SurveyProvider(
           acknowledge: controller.acknowledge,
           start: controller.start,
           reset: controller.reset,
-          setMode: controller.setMode,
+          setMode: setModeHandler,
+          mode,
           error,
         } as SurveyContext
       }
