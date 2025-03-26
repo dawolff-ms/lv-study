@@ -1,0 +1,22 @@
+<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="01-D-dark">
+<rect width="500" height="300" rx="30" fill="#292929"/>
+<g id="Field-horz">
+<g id="Form + Text">
+<g id="Input">
+<g clip-path="url(#clip0_383_19280)">
+<g id="Contents">
+<rect x="28.5" y="134.5" width="443" height="31" rx="3.5" fill="#292929"/>
+<rect x="28.5" y="134.5" width="443" height="31" rx="3.5" stroke="#DC626D"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_383_19280">
+<path d="M28 138C28 135.791 29.7909 134 32 134H468C470.209 134 472 135.791 472 138V162C472 164.209 470.209 166 468 166H32C29.7909 166 28 164.209 28 162V138Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

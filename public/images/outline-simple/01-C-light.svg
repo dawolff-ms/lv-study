@@ -9,7 +9,7 @@
 <rect x="28.5" y="134.5" width="443" height="31" rx="3.5" fill="white"/>
 <rect x="28.5" y="134.5" width="443" height="31" rx="3.5" stroke="#D1D1D1"/>
 </g>
-<path id="InFocus" d="M28 164H472V164C472 165.105 471.105 166 470 166H30C28.8954 166 28 165.105 28 164V164Z" fill="#1C60DF"/>
+<path id="InFocus" d="M28 164H472C472 165.105 471.105 166 470 166H30C28.8954 166 28 165.105 28 164Z" fill="#1C60DF"/>
 </g>
 </g>
 </g>
