@@ -1,7 +1,8 @@
 import {
+  Body1,
   Body1Strong,
+  Button,
   FluentProvider,
-  Link,
   Skeleton,
   SkeletonItem,
   Title2,
@@ -36,8 +37,17 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const { test, acknowledge, start, resume, reset, status, mode, progress } =
-    React.useContext(SurveyContext);
+  const {
+    test,
+    acknowledge,
+    start,
+    resume,
+    reset,
+    status,
+    mode,
+    progress,
+    surveyId,
+  } = React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
@@ -51,6 +61,14 @@ export default function SurveyPage() {
     navigate(AppRoutes.LANDING);
     reset();
   }, [reset, navigate]);
+
+  const handleGoToLanding = React.useCallback(
+    (ev?: React.MouseEvent<HTMLButtonElement>) => {
+      ev?.stopPropagation?.();
+      onExit();
+    },
+    [onExit]
+  );
 
   const onKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -100,6 +118,12 @@ export default function SurveyPage() {
                 The screen will transition to light mode once you begin.
               </Body1Strong>
             )}
+            <br />
+            <Button appearance="secondary" onClick={handleGoToLanding}>
+              Go back
+            </Button>
+            <br />
+            {surveyId && <Body1>Survey ID: {surveyId}</Body1>}
           </>
         )}
         {status === "break" && (
@@ -123,7 +147,9 @@ export default function SurveyPage() {
             <Title3 as="h1">
               Survey is complete, thank you for participating!
             </Title3>
-            <Link onClick={onExit}>Home</Link>
+            <Button appearance="secondary" onClick={handleGoToLanding}>
+              Home
+            </Button>
           </>
         )}
       </Flex>

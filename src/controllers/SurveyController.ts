@@ -1,14 +1,14 @@
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import {
   ImageMode,
   ImageProvider,
   ImageState,
 } from "../data-provider/images/ImageProvider";
 import ResultsProvider from "../data-provider/ResultsProvider";
-
 import Listenable from "../utils/Listenable";
 
 export type SurveyMode = ImageMode | "both";
+export type SurveyProgress = { current: number; total: number };
 
 export type TestState = {
   image: ImageState;
@@ -23,8 +23,8 @@ export type SurveyControllerEvent =
   | { type: "test-state-update"; test: TestState }
   | { type: "survey-started" }
   | { type: "survey-completed" }
-  | { type: "survey-reset" }
-  | { type: "survey-break" };
+  | { type: "survey-reset"; surveyId: string }
+  | { type: "survey-break"; progress: SurveyProgress };
 
 export default class SurveyController extends Listenable<SurveyControllerEvent> {
   private SKIP_TIMEOUT_MS = 20000;
@@ -38,7 +38,9 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
 
   private breakCadence = 25;
   private mode: SurveyMode = "light";
-  private userId?: string;
+
+  private generateSurveyId: () => string;
+  private surveyId: string;
 
   private _initialization: Promise<void>;
   public get initialization(): Promise<void> {
@@ -61,6 +63,12 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.setBreakCadence = this.setBreakCadence.bind(this);
     this.queueNextImage = this.queueNextImage.bind(this);
 
+    this.generateSurveyId = customAlphabet(
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      6
+    ).bind(this);
+
+    this.surveyId = this.generateSurveyId();
     this._initialization = this.initialize();
   }
 
@@ -82,9 +90,16 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   public start(): void {
-    this.reset();
-    this.userId = nanoid(8);
+    // Create our current tests array, initialize the index.
+    this.currentIndex = -1;
+    this.currentTests = this.allTests
+      .filter((test) => {
+        if (this.mode === "both") return true;
+        return test.image.mode === this.mode;
+      })
+      .map((test) => ({ ...test }));
 
+    // Start the survey, and queue the first image.
     this.updateListeners({ type: "survey-started" });
     this.queueNextImage();
   }
@@ -93,7 +108,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     const currentTest = this.currentTests[this.currentIndex];
     if (test.image.source !== currentTest.image.source) return;
     if (currentTest.start == null) return;
-    if (this.userId == null) return;
+    if (this.surveyId == null) return;
 
     // Prevent the skip timeout from triggering.
     clearTimeout(currentTest.skipTimeout);
@@ -106,7 +121,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     );
 
     this.resultsProvider.createResult({
-      UserID: this.userId,
+      UserID: this.surveyId,
       TestName: currentTest.image.name,
       TestNumber: this.currentIndex,
       Duration: duration,
@@ -119,12 +134,12 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   public skip(test: TestState): void {
     const currentTest = this.currentTests[this.currentIndex];
     if (test.image.source !== currentTest.image.source) return;
-    if (this.userId == null) return;
+    if (this.surveyId == null) return;
 
     console.log(`Skipped image ${currentTest.image.source}`);
 
     this.resultsProvider.createResult({
-      UserID: this.userId,
+      UserID: this.surveyId,
       TestName: currentTest.image.name,
       TestNumber: this.currentIndex,
       Delay: currentTest.delay ?? 0,
@@ -145,16 +160,8 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
       clearTimeout(currentTest.skipTimeout);
     }
 
-    // Recreate our current tests array, reset our index.
-    this.currentIndex = -1;
-    this.currentTests = this.allTests
-      .filter((test) => {
-        if (this.mode === "both") return true;
-        return test.image.mode === this.mode;
-      })
-      .map((test) => ({ ...test }));
-
-    this.updateListeners({ type: "survey-reset" });
+    this.surveyId = this.generateSurveyId();
+    this.updateListeners({ type: "survey-reset", surveyId: this.surveyId });
   }
 
   /**
@@ -186,6 +193,10 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     return { current: this.currentIndex + 1, total: this.currentTests.length };
   }
 
+  public getSurveyId(): string {
+    return this.surveyId;
+  }
+
   private queueNextImage(isResuming = false): void {
     // If the next image aligns with the break cadence, we should pause. We skip
     // this check if we're resuming from a break or if we're just starting the survey.
@@ -195,7 +206,13 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
       !isStarting &&
       (this.currentIndex + 1) % this.breakCadence === 0
     ) {
-      this.updateListeners({ type: "survey-break" });
+      this.updateListeners({
+        type: "survey-break",
+        progress: {
+          current: this.currentIndex + 1,
+          total: this.currentTests.length,
+        },
+      });
       return;
     }
 
