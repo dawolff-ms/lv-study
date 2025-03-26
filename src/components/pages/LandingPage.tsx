@@ -1,8 +1,10 @@
 import {
   Body1,
   Button,
-  Select,
-  SelectOnChangeData,
+  Field,
+  Radio,
+  RadioGroup,
+  RadioGroupOnChangeData,
   SpinButton,
   Subtitle1,
   Title1,
@@ -28,9 +30,6 @@ const useStyles = makeStyles({
 export default function LandingPage() {
   const styles = useStyles();
   const navigate = useNavigate();
-
-  const selectId = "mode-select";
-  const cadenceId = "cadence-spinbutton";
 
   const { mode, setMode, breakCadence, setBreakCadence } =
     React.useContext(SurveyContext);
@@ -79,33 +78,31 @@ export default function LandingPage() {
 
       <Subtitle1 as="h2">To begin the survey</Subtitle1>
 
-      <label htmlFor={selectId}>Select the mode you'd like to test:</label>
-      <Select
-        id={selectId}
-        value={mode}
-        onChange={(_, data: SelectOnChangeData) =>
-          setMode(data.value as SurveyMode)
-        }
-      >
-        {/*<option value="both">Light and Dark mode</option>*/}
-        <option value="light">Light mode only</option>
-        <option value="dark">Dark mode only</option>
-      </Select>
+      <Field label="Select the mode you'd like to test:">
+        <RadioGroup
+          value={mode}
+          onChange={(_, data: RadioGroupOnChangeData) =>
+            setMode(data.value as SurveyMode)
+          }
+        >
+          {/*<Radio value="both" label="Light and Dark mode"/>*/}
+          <Radio value="light" label="Light mode only" />
+          <Radio value="dark" label="Dark mode only" />
+        </RadioGroup>
+      </Field>
 
-      <label htmlFor={cadenceId}>
-        Select how many tests to perform in a row before taking a break:
-      </label>
-      <SpinButton
-        id={cadenceId}
-        stepPage={5}
-        min={1}
-        value={breakCadence}
-        onChange={(_, data) => {
-          const value = data.value ?? parseInt(data.displayValue ?? "");
-          if (Number.isNaN(value)) return;
-          setBreakCadence(value);
-        }}
-      />
+      <Field label="Select how many tests to perform in a row before taking a break:">
+        <SpinButton
+          stepPage={5}
+          min={1}
+          value={breakCadence}
+          onChange={(_, data) => {
+            const value = data.value ?? parseInt(data.displayValue ?? "");
+            if (Number.isNaN(value)) return;
+            setBreakCadence(value);
+          }}
+        />
+      </Field>
 
       <Button
         className={styles.button}
