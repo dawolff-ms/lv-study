@@ -15,6 +15,8 @@ export type SurveyContext = {
   reset: () => void;
   setMode: (mode: SurveyMode) => void;
   mode: SurveyMode;
+  setBreakCadence: (cadence: number) => void;
+  breakCadence: number;
   error?: Error;
 };
 
@@ -31,6 +33,9 @@ export function SurveyProvider(
 
   const [status, setStatus] = React.useState<SurveyStatus>("loading");
   const [mode, setMode] = React.useState<SurveyMode>(controller.getMode());
+  const [breakCadence, setBreakCadence] = React.useState<number>(
+    controller.getBreakCadence()
+  );
   const [error, setError] = React.useState<Error | null>(null);
 
   const [test, setTest] = React.useState<TestState>();
@@ -43,6 +48,14 @@ export function SurveyProvider(
     (mode: SurveyMode) => {
       controller.setMode(mode);
       setMode(mode);
+    },
+    [controller]
+  );
+
+  const setBreakCadenceHandler = React.useCallback(
+    (cadence: number) => {
+      controller.setBreakCadence(cadence);
+      setBreakCadence(cadence);
     },
     [controller]
   );
@@ -88,6 +101,8 @@ export function SurveyProvider(
           reset: controller.reset,
           setMode: setModeHandler,
           mode,
+          setBreakCadence: setBreakCadenceHandler,
+          breakCadence,
           error,
         } as SurveyContext
       }

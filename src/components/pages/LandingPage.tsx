@@ -4,6 +4,7 @@ import {
   Divider,
   Select,
   SelectOnChangeData,
+  SpinButton,
   Title1,
   makeStyles,
 } from "@fluentui/react-components";
@@ -29,8 +30,10 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   const selectId = "mode-select";
+  const cadenceId = "cadence-spinbutton";
 
-  const { setMode } = React.useContext(SurveyContext);
+  const { mode, setMode, breakCadence, setBreakCadence } =
+    React.useContext(SurveyContext);
 
   return (
     <Flex gap={12} className={styles.container}>
@@ -64,7 +67,7 @@ export default function LandingPage() {
       <label htmlFor={selectId}>Select the mode you'd like to test:</label>
       <Select
         id={selectId}
-        defaultValue="light"
+        value={mode}
         onChange={(_, data: SelectOnChangeData) =>
           setMode(data.value as SurveyMode)
         }
@@ -73,6 +76,22 @@ export default function LandingPage() {
         <option value="light">Light mode only</option>
         <option value="dark">Dark mode only</option>
       </Select>
+
+      <label htmlFor={cadenceId}>
+        Select how many tests to perform in a row before taking a break:
+      </label>
+      <SpinButton
+        id={cadenceId}
+        stepPage={5}
+        min={1}
+        value={breakCadence}
+        onChange={(_, data) => {
+          const value = data.value ?? parseInt(data.displayValue ?? "");
+          if (Number.isNaN(value)) return;
+          setBreakCadence(value);
+        }}
+      />
+
       <Button
         className={styles.button}
         appearance="primary"

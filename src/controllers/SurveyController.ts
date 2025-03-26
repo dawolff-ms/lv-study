@@ -28,7 +28,6 @@ export type SurveyControllerEvent =
 
 export default class SurveyController extends Listenable<SurveyControllerEvent> {
   private SKIP_TIMEOUT_MS = 20000;
-  private BREAK_CADENCE = 25;
 
   private imageProvider: ImageProvider;
   private resultsProvider: ResultsProvider;
@@ -37,6 +36,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   private currentTests: TestState[] = [];
   private currentIndex = -1;
 
+  private breakCadence = 25;
   private mode: SurveyMode = "light";
   private userId?: string;
 
@@ -58,6 +58,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     this.resume = this.resume.bind(this);
     this.reset = this.reset.bind(this);
     this.setMode = this.setMode.bind(this);
+    this.setBreakCadence = this.setBreakCadence.bind(this);
     this.queueNextImage = this.queueNextImage.bind(this);
 
     this._initialization = this.initialize();
@@ -157,6 +158,19 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
   }
 
   /**
+   * Sets the break cadence. This will determine how frequently the survey will
+   * allow the user to take a break.
+   * @param cadence the number of tests in a row before a break occurs.
+   */
+  public setBreakCadence(cadence: number): void {
+    this.breakCadence = cadence;
+  }
+
+  public getBreakCadence(): number {
+    return this.breakCadence;
+  }
+
+  /**
    * Sets the mode of the survey. This will determine which images are shown.
    * @param mode the mode to set the survey to.
    */
@@ -175,7 +189,7 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     if (
       !isResuming &&
       !isStarting &&
-      (this.currentIndex + 1) % this.BREAK_CADENCE === 0
+      (this.currentIndex + 1) % this.breakCadence === 0
     ) {
       this.updateListeners({ type: "survey-break" });
       return;
