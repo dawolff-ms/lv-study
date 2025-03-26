@@ -86,8 +86,8 @@ export default function LandingPage() {
           }
         >
           {/*<Radio value="both" label="Light and Dark mode"/>*/}
-          <Radio value="light" label="Light mode only" />
-          <Radio value="dark" label="Dark mode only" />
+          <Radio value="light" label="Light mode" />
+          <Radio value="dark" label="Dark mode" />
         </RadioGroup>
       </Field>
 

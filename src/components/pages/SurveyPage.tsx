@@ -61,7 +61,9 @@ export default function SurveyPage() {
         const leave =
           status === "completed"
             ? true
-            : confirm("Are you sure you want to leave the survey?");
+            : confirm(
+                "Are you sure you want to leave the survey? Any progress will be lost."
+              );
 
         if (leave) onExit();
       }
