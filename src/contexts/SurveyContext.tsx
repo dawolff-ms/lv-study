@@ -17,6 +17,7 @@ export type SurveyContext = {
   mode: SurveyMode;
   setBreakCadence: (cadence: number) => void;
   breakCadence: number;
+  progress: ReturnType<SurveyController["getProgress"]>;
   error?: Error;
 };
 
@@ -32,6 +33,9 @@ export function SurveyProvider(
   const { controller, children } = props;
 
   const [status, setStatus] = React.useState<SurveyStatus>("loading");
+  const [progress, setProgress] =
+    React.useState<ReturnType<SurveyController["getProgress"]>>();
+
   const [mode, setMode] = React.useState<SurveyMode>(controller.getMode());
   const [breakCadence, setBreakCadence] = React.useState<number>(
     controller.getBreakCadence()
@@ -72,6 +76,7 @@ export function SurveyProvider(
           break;
         case "survey-break":
           setStatus("break");
+          setProgress(controller.getProgress());
           break;
         case "survey-completed":
           setStatus("completed");
@@ -103,6 +108,7 @@ export function SurveyProvider(
           mode,
           setBreakCadence: setBreakCadenceHandler,
           breakCadence,
+          progress,
           error,
         } as SurveyContext
       }

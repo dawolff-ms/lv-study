@@ -182,6 +182,10 @@ export default class SurveyController extends Listenable<SurveyControllerEvent> 
     return this.mode;
   }
 
+  public getProgress(): { current: number; total: number } {
+    return { current: this.currentIndex + 1, total: this.currentTests.length };
+  }
+
   private queueNextImage(isResuming = false): void {
     // If the next image aligns with the break cadence, we should pause. We skip
     // this check if we're resuming from a break or if we're just starting the survey.
