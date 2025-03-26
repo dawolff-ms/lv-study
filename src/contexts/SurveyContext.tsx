@@ -3,6 +3,7 @@ import * as React from "react";
 import SurveyController, {
   SurveyControllerEvent,
   SurveyMode,
+  SurveyProgress,
   TestState,
 } from "../controllers/SurveyController";
 
@@ -18,6 +19,7 @@ export type SurveyContext = {
   setBreakCadence: (cadence: number) => void;
   breakCadence: number;
   progress: ReturnType<SurveyController["getProgress"]>;
+  surveyId?: string;
   error?: Error;
 };
 
@@ -33,8 +35,11 @@ export function SurveyProvider(
   const { controller, children } = props;
 
   const [status, setStatus] = React.useState<SurveyStatus>("loading");
-  const [progress, setProgress] =
-    React.useState<ReturnType<SurveyController["getProgress"]>>();
+  const [progress, setProgress] = React.useState<SurveyProgress>();
+
+  const [surveyId, setSurveyId] = React.useState<string>(
+    controller.getSurveyId()
+  );
 
   const [mode, setMode] = React.useState<SurveyMode>(controller.getMode());
   const [breakCadence, setBreakCadence] = React.useState<number>(
@@ -73,10 +78,11 @@ export function SurveyProvider(
         case "survey-reset":
           setStatus("idle");
           setTest(undefined);
+          setSurveyId(event.surveyId);
           break;
         case "survey-break":
           setStatus("break");
-          setProgress(controller.getProgress());
+          setProgress(event.progress);
           break;
         case "survey-completed":
           setStatus("completed");
@@ -109,6 +115,7 @@ export function SurveyProvider(
           setBreakCadence: setBreakCadenceHandler,
           breakCadence,
           progress,
+          surveyId,
           error,
         } as SurveyContext
       }
