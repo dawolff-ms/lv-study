@@ -20,7 +20,7 @@ import { SurveyMode } from "../../controllers/SurveyController";
 
 const useStyles = makeStyles({
   container: {
-    margin: "10% 25%",
+    margin: "5% 20%",
   },
   button: {
     margin: "16px auto",
