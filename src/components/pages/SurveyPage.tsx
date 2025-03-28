@@ -3,8 +3,6 @@ import {
   Body1Strong,
   Button,
   FluentProvider,
-  Skeleton,
-  SkeletonItem,
   Title2,
   Title3,
   makeStyles,
@@ -23,12 +21,26 @@ const useStyles = makeStyles({
     transition: "background-color 0.5s ease-in",
   },
   container: {
+    width: "100%",
+    height: "100%",
+    minHeight: "100vh",
+  },
+  inner: {
+    margin: "auto",
+  },
+  imageContainer: {
     width: "100vw",
     height: "100vh",
   },
+  imageBox: {
+    overflowY: "hidden",
+    width: "500px",
+    height: "300px",
+    position: "absolute",
+    top: "calc(100vh / 2 - 300px / 2)",
+    left: "max(0px, calc(100vw / 2 - 500px / 2))",
+  },
   image: {
-    maxWidth: "100%",
-    height: "auto",
     pointerEvents: "none",
     userSelect: "none",
   },
@@ -36,18 +48,10 @@ const useStyles = makeStyles({
 
 export default function SurveyPage() {
   const styles = useStyles();
+  const [focusRef, setFocusRef] = React.useState<HTMLDivElement | null>(null);
 
-  const {
-    test,
-    acknowledge,
-    start,
-    resume,
-    reset,
-    status,
-    mode,
-    progress,
-    surveyId,
-  } = React.useContext(SurveyContext);
+  const { test, acknowledge, start, resume, reset, status, mode, surveyId } =
+    React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
@@ -89,29 +93,31 @@ export default function SurveyPage() {
     [onClick, onExit, status]
   );
 
+  React.useEffect(() => {
+    focusRef?.focus?.();
+  }, [focusRef, status]);
+
   return (
     <FluentProvider
       theme={test?.image?.mode === "light" ? webLightTheme : webDarkTheme}
       className={styles.background}
     >
       <Flex
+        ref={setFocusRef}
         className={styles.container}
         justifyContent="center"
-        alignItems="center"
+        alignItems="baseline"
         onClick={onClick}
         onKeyDown={onKeyDown}
         tabIndex={0}
-        role="presentation"
+        aria-label={
+          status === "in-progress"
+            ? "Click anywhere or press SPACE when you see a text field"
+            : undefined
+        }
       >
-        {status === "loading" && (
-          <Skeleton aria-label="loading">
-            <SkeletonItem shape="rectangle" size={24} />
-            <SkeletonItem shape="rectangle" size={24} />
-            <SkeletonItem shape="rectangle" size={24} />
-          </Skeleton>
-        )}
         {status === "idle" && (
-          <>
+          <Flex className={styles.inner} alignItems="center">
             <Title2 as="h1">Click anywhere or press SPACE to begin</Title2>
             {mode === "light" && (
               <Body1Strong>
@@ -119,38 +125,44 @@ export default function SurveyPage() {
               </Body1Strong>
             )}
             <br />
-            <Button appearance="secondary" onClick={handleGoToLanding}>
+            <Button
+              appearance="secondary"
+              onClick={handleGoToLanding}
+              onKeyDown={(ev) => ev.stopPropagation()}
+            >
               Go back
             </Button>
             <br />
             {surveyId && <Body1>Survey ID: {surveyId}</Body1>}
-          </>
+          </Flex>
         )}
         {status === "break" && (
-          <>
+          <Flex className={styles.inner} alignItems="center">
             <Title2 as="h1">Take a break!</Title2>
-            <Body1Strong>
-              You've completed {progress.current} out of {progress.total}!
-            </Body1Strong>
             <Body1Strong>Click anywhere or press SPACE to continue</Body1Strong>
-          </>
+          </Flex>
         )}
         {status === "in-progress" && test != null && (
-          <img
-            className={styles.image}
-            style={{ display: test.hidden ? "none" : "unset" }}
-            src={test.image.source}
-          />
+          <div className={styles.imageContainer}>
+            <div className={styles.imageBox}>
+              <img
+                className={styles.image}
+                style={{ display: test.hidden ? "none" : "unset" }}
+                src={test.image.source}
+                role="presentation"
+              />
+            </div>
+          </div>
         )}
         {status === "completed" && (
-          <>
+          <Flex className={styles.inner} alignItems="center">
             <Title3 as="h1">
               Survey is complete, thank you for participating!
             </Title3>
             <Button appearance="secondary" onClick={handleGoToLanding}>
               Home
             </Button>
-          </>
+          </Flex>
         )}
       </Flex>
     </FluentProvider>

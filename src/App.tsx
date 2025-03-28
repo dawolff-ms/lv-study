@@ -12,8 +12,8 @@ import SurveyPage from "./components/pages/SurveyPage";
 const useStyles = makeStyles({
   root: {
     position: "absolute",
-    width: "100vw",
-    height: "100vh",
+    width: "100%",
+    minHeight: "100vh",
   },
 });
 
