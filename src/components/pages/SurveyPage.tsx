@@ -21,12 +21,26 @@ const useStyles = makeStyles({
     transition: "background-color 0.5s ease-in",
   },
   container: {
+    width: "100%",
+    height: "100%",
+    minHeight: "100vh",
+  },
+  inner: {
+    margin: "auto",
+  },
+  imageContainer: {
     width: "100vw",
     height: "100vh",
   },
+  imageBox: {
+    overflowY: "hidden",
+    width: "500px",
+    height: "300px",
+    position: "absolute",
+    top: "calc(100vh / 2 - 300px / 2)",
+    left: "max(0px, calc(100vw / 2 - 500px / 2))",
+  },
   image: {
-    maxWidth: "100%",
-    height: "auto",
     pointerEvents: "none",
     userSelect: "none",
   },
@@ -92,7 +106,7 @@ export default function SurveyPage() {
         ref={setFocusRef}
         className={styles.container}
         justifyContent="center"
-        alignItems="center"
+        alignItems="baseline"
         onClick={onClick}
         onKeyDown={onKeyDown}
         tabIndex={0}
@@ -103,7 +117,7 @@ export default function SurveyPage() {
         }
       >
         {status === "idle" && (
-          <>
+          <Flex className={styles.inner} alignItems="center">
             <Title2 as="h1">Click anywhere or press SPACE to begin</Title2>
             {mode === "light" && (
               <Body1Strong>
@@ -120,30 +134,35 @@ export default function SurveyPage() {
             </Button>
             <br />
             {surveyId && <Body1>Survey ID: {surveyId}</Body1>}
-          </>
+          </Flex>
         )}
         {status === "break" && (
-          <>
+          <Flex className={styles.inner} alignItems="center">
             <Title2 as="h1">Take a break!</Title2>
             <Body1Strong>Click anywhere or press SPACE to continue</Body1Strong>
-          </>
+          </Flex>
         )}
         {status === "in-progress" && test != null && (
-          <img
-            className={styles.image}
-            style={{ display: test.hidden ? "none" : "unset" }}
-            src={test.image.source}
-          />
+          <div className={styles.imageContainer}>
+            <div className={styles.imageBox}>
+              <img
+                className={styles.image}
+                style={{ display: test.hidden ? "none" : "unset" }}
+                src={test.image.source}
+                role="presentation"
+              />
+            </div>
+          </div>
         )}
         {status === "completed" && (
-          <>
+          <Flex className={styles.inner} alignItems="center">
             <Title3 as="h1">
               Survey is complete, thank you for participating!
             </Title3>
             <Button appearance="secondary" onClick={handleGoToLanding}>
               Home
             </Button>
-          </>
+          </Flex>
         )}
       </Flex>
     </FluentProvider>
