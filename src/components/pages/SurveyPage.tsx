@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 
 export default function SurveyPage() {
   const styles = useStyles();
+  const [focusRef, setFocusRef] = React.useState<HTMLDivElement | null>(null);
 
   const { test, acknowledge, start, resume, reset, status, mode, surveyId } =
     React.useContext(SurveyContext);
@@ -78,19 +79,28 @@ export default function SurveyPage() {
     [onClick, onExit, status]
   );
 
+  React.useEffect(() => {
+    focusRef?.focus?.();
+  }, [focusRef, status]);
+
   return (
     <FluentProvider
       theme={test?.image?.mode === "light" ? webLightTheme : webDarkTheme}
       className={styles.background}
     >
       <Flex
+        ref={setFocusRef}
         className={styles.container}
         justifyContent="center"
         alignItems="center"
         onClick={onClick}
         onKeyDown={onKeyDown}
         tabIndex={0}
-        role="presentation"
+        aria-label={
+          status === "in-progress"
+            ? "Click anywhere or press SPACE when you see a text field"
+            : undefined
+        }
       >
         {status === "idle" && (
           <>
@@ -101,7 +111,11 @@ export default function SurveyPage() {
               </Body1Strong>
             )}
             <br />
-            <Button appearance="secondary" onClick={handleGoToLanding}>
+            <Button
+              appearance="secondary"
+              onClick={handleGoToLanding}
+              onKeyDown={(ev) => ev.stopPropagation()}
+            >
               Go back
             </Button>
             <br />
