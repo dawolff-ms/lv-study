@@ -3,8 +3,6 @@ import {
   Body1Strong,
   Button,
   FluentProvider,
-  Skeleton,
-  SkeletonItem,
   Title2,
   Title3,
   makeStyles,
@@ -37,17 +35,8 @@ const useStyles = makeStyles({
 export default function SurveyPage() {
   const styles = useStyles();
 
-  const {
-    test,
-    acknowledge,
-    start,
-    resume,
-    reset,
-    status,
-    mode,
-    progress,
-    surveyId,
-  } = React.useContext(SurveyContext);
+  const { test, acknowledge, start, resume, reset, status, mode, surveyId } =
+    React.useContext(SurveyContext);
 
   const navigate = useNavigate();
 
@@ -103,13 +92,6 @@ export default function SurveyPage() {
         tabIndex={0}
         role="presentation"
       >
-        {status === "loading" && (
-          <Skeleton aria-label="loading">
-            <SkeletonItem shape="rectangle" size={24} />
-            <SkeletonItem shape="rectangle" size={24} />
-            <SkeletonItem shape="rectangle" size={24} />
-          </Skeleton>
-        )}
         {status === "idle" && (
           <>
             <Title2 as="h1">Click anywhere or press SPACE to begin</Title2>
@@ -129,9 +111,6 @@ export default function SurveyPage() {
         {status === "break" && (
           <>
             <Title2 as="h1">Take a break!</Title2>
-            <Body1Strong>
-              You've completed {progress.current} out of {progress.total}!
-            </Body1Strong>
             <Body1Strong>Click anywhere or press SPACE to continue</Body1Strong>
           </>
         )}
