@@ -23,6 +23,8 @@ const useStyles = makeStyles({
 
   container: {
     backgroundColor: "#220A32",
+    minHeight: "100vh",
+    display: "flex",
     "& section": {
       padding: "0",
       minHeight: "300px",
