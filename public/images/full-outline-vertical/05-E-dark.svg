@@ -1,7 +1,7 @@
 <svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="05-E-dark">
 <rect x="0.5" y="0.5" width="499" height="299" rx="29.5" fill="#292929"/>
-<rect x="0.5" y="0.5" width="499" height="299" rx="29.5" stroke="#ADADAD"/>
+<rect x="0.5" y="0.5" width="499" height="299" rx="29.5" />
 <g id="Field">
 <g id="Label + Icon">
 <g id="Label">
