@@ -47,12 +47,14 @@ export default function LandingPage() {
       <ul>
         <li>
           <Body1>
-            If you're able to see the text box, press the space bar on your
-            keyboard or click your mouse.
+            If you recognize an input field, press the space bar or click
+            anywhere with your mouse.
           </Body1>
         </li>
         <li>
-          <Body1>If you don't see it, don't take any action.</Body1>
+          <Body1>
+            If you don't recognize an input field, don't take any action.
+          </Body1>
         </li>
       </ul>
       <Body1>
