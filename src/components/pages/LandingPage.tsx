@@ -1,5 +1,4 @@
 import {
-  Body1,
   Button,
   Field,
   Radio,
@@ -54,7 +53,7 @@ const useStyles = makeStyles({
         left: "-115px", 
         width: "100px", 
         height: "100px", 
-        backgroundImage: "url('/images/_design/icon-heart.png')", 
+        backgroundImage: "url('/design/icon-heart.png')", 
         backgroundSize: "contain", 
         backgroundRepeat: "no-repeat", 
       },
@@ -99,7 +98,7 @@ const useStyles = makeStyles({
       right: "-100px", 
       width: "80px",
       height: "80px",
-      backgroundImage: "url('/images/_design/icon-hand.png')", 
+      backgroundImage: "url('/design/icon-hand.png')", 
       backgroundSize: "contain", 
       backgroundRepeat: "no-repeat",
     },
@@ -121,7 +120,7 @@ export default function LandingPage() {
         <div className={styles.homeSection}> 
           <Title1 as="h1" className={styles.gradientTitle}> Hello - thank you for participating in this study</Title1>
 
-          <img src="/images/_design/border-squiggly.png" className={styles.homeBorder} />
+          <img src="/design/border-squiggly.png" alt="A squiggly border design. Fun!" className={styles.homeBorder} />
 
           <Subtitle1 as="h2">Instructions</Subtitle1>
          
