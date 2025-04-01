@@ -32,6 +32,9 @@ const useStyles = makeStyles({
     "& li, p": {
       fontSize: "16px",
     },
+    "& ol": {
+      paddingLeft: "20px",
+    },
     "& li": {
       padding: "10px 0",
     },
